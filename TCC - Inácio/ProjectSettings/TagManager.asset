@@ -10,6 +10,8 @@ TagManager:
   - machado
   - plantarArvore
   - Plantado
+  - inicioFase
+  - camera
   layers:
   - Default
   - TransparentFX

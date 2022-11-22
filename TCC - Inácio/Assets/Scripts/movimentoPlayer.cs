@@ -51,8 +51,6 @@ public class movimentoPlayer : MonoBehaviour {
     public bool validadorPlantou;
     public string tag;
     public GameObject particulasPlantarArvore;
-    public GameObject cameraPrincipal;
-    public GameObject cameraAnimacao;
 
     void Start() {
 
@@ -67,7 +65,7 @@ public class movimentoPlayer : MonoBehaviour {
         quantArvoresPlantar = 6;
         textQuantArvoresPlantar.text = quantArvoresPlantar.ToString();
 
-        cameraAnimacao.SetActive(false);
+       
     }
   
     void Update() {
@@ -84,8 +82,7 @@ public class movimentoPlayer : MonoBehaviour {
 
         if (Input.GetKeyDown(KeyCode.B))
         {
-            cameraAnimacao.SetActive(true);
-            cameraPrincipal.SetActive(false);
+           
         }
 
 
@@ -174,8 +171,7 @@ public class movimentoPlayer : MonoBehaviour {
 
         }
 
-
-    }
+      }
 
     void relogioFase() {
 
@@ -228,6 +224,6 @@ public class movimentoPlayer : MonoBehaviour {
         }
     }
 
-
+   
 
 }

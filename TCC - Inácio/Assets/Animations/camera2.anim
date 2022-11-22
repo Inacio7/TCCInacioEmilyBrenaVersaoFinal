@@ -421,8 +421,8 @@ AnimationClip:
   m_HasGenericRootTransform: 1
   m_HasMotionFloatCurves: 0
   m_Events:
-  - time: 7.5
-    functionName: "AcabarAnima\xE7\xE3o"
+  - time: 11
+    functionName: fimAminacao
     data: 
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0
