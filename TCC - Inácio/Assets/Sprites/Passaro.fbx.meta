@@ -5,10 +5,10 @@ ModelImporter:
   internalIDToNameTable:
   - first:
       74: 6721458310439393509
-    second: "Arma\xE7\xE3o|Arma\xE7\xE3oAction"
+    second: Voando
   - first:
       74: -7762883854845474390
-    second: "Arma\xE7\xE3o|Arma\xE7\xE3oAction (1)"
+    second: Idle
   externalObjects: {}
   materials:
     materialImportMode: 2
@@ -38,7 +38,7 @@ ModelImporter:
     extraUserProperties: []
     clipAnimations:
     - serializedVersion: 16
-      name: "Arma\xE7\xE3o|Arma\xE7\xE3oAction"
+      name: Voando
       takeName: "Arma\xE7\xE3o|Arma\xE7\xE3oAction"
       internalID: 0
       firstFrame: 20
@@ -119,10 +119,10 @@ ModelImporter:
       maskSource: {instanceID: 0}
       additiveReferencePoseFrame: 0.22
     - serializedVersion: 16
-      name: "Arma\xE7\xE3o|Arma\xE7\xE3oAction (1)"
+      name: Idle
       takeName: "Arma\xE7\xE3o|Arma\xE7\xE3oAction"
       internalID: 0
-      firstFrame: 0
+      firstFrame: 80
       lastFrame: 139
       wrapMode: 0
       orientationOffsetY: 0
