@@ -7,7 +7,7 @@ public class BotoesInicial : MonoBehaviour
 {
     bool tocando;
     public AudioSource cam;
-    // Start is called before the first frame update
+    
     void Start()
     {
         
@@ -27,18 +27,5 @@ public class BotoesInicial : MonoBehaviour
     {
         SceneManager.LoadScene("InstrucaoDoJogo");
 
-    }
-    public void Som()
-    {
-        if (tocando == true)
-        {
-            cam.mute = true;
-            tocando = false;
-        }
-        else if (tocando == false)
-        {
-            cam.mute = false;
-            tocando = true;
-        }
     }
 }
