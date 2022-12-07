@@ -24,8 +24,6 @@ public class arma : MonoBehaviour
 
     void Atirar()
     {
-        GameObject temp = Instantiate(bala, posicaoAtirarbala.position, transform.rotation);
-
-        temp.GetComponent<Rigidbody>().AddForce(Vector3.forward , ForceMode.Impulse);
+        Instantiate(bala, posicaoAtirarbala.position, posicaoAtirarbala.transform.rotation);
     }
 }
