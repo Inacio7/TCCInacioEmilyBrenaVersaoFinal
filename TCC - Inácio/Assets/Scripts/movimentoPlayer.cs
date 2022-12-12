@@ -52,6 +52,17 @@ public class movimentoPlayer : MonoBehaviour {
     public string tag;
     public GameObject particulasPlantarArvore;
 
+    public GameObject inf1;
+     public string tagInfo;
+
+
+    public bool raycasthit;
+
+    private fimAnimacaoFase fimanim;
+    // public GameObject 
+
+    //public GameObject 
+
     void Start() {
 
         cam = Camera.main.transform;
@@ -64,7 +75,10 @@ public class movimentoPlayer : MonoBehaviour {
         infoPlantarArvore.SetActive(false);
         quantArvoresPlantar = 6;
         textQuantArvoresPlantar.text = quantArvoresPlantar.ToString();
+        fimanim = FindObjectOfType(typeof(fimAnimacaoFase)) as fimAnimacaoFase;
 
+        fimanim.player = this.gameObject;
+        
        
     }
   
@@ -88,6 +102,148 @@ public class movimentoPlayer : MonoBehaviour {
 
     }
 
+    void MovimentoPersonagem()
+    {
+
+        if (sensor && velocidade.y < 0)
+        {
+            velocidade.y = -0.01f;
+        }
+
+
+        if (direcao.magnitude > 0.1f)
+        {
+
+            float anguloDestino = Mathf.Atan2(direcao.x, direcao.z) * Mathf.Rad2Deg + cam.eulerAngles.y;
+
+            float angulo = Mathf.SmoothDampAngle(transform.eulerAngles.y, anguloDestino, ref suavizancaoVelocidade, suavizacaoMovimento);
+
+            transform.rotation = Quaternion.Euler(0f, angulo, 0f);
+
+            direcaoMovimento = Quaternion.Euler(0f, anguloDestino, 0f) * Vector3.forward;
+
+            walk = true;
+
+        }
+        else
+        {
+
+            walk = false;
+
+        }
+
+        controller.Move(direcaoMovimento.normalized * velocidadeMovimento * direcao.magnitude * Time.deltaTime);
+
+        anim.SetBool("walk", walk);
+
+        velocidade.y += gravidade * Time.deltaTime;
+
+        controller.Move(velocidade * Time.deltaTime);
+
+    }
+
+
+
+    void relogioFase()
+    {
+
+        if (relogio > 0)
+        {
+
+            relogio -= Time.deltaTime;
+
+            textoRelogio.text = relogio.ToString("0");
+
+        }
+
+    }
+
+    void RayCastPlayer()
+    {
+
+        raio.origin = posicaoRay.position;
+        raio.direction = posicaoRay.forward;
+        Debug.DrawRay(raio.origin, raio.direction * alcandeRaio, Color.red);
+
+
+        raycasthit = Physics.Raycast(raio.origin, raio.direction, out rayInfo, alcandeRaio, layerInter);
+
+        if (raycasthit == true)
+        {
+
+
+
+            distanciaRaio = rayInfo.distance;
+
+            tagInfo = rayInfo.transform.gameObject.tag;
+
+            if (rayInfo.transform.gameObject.tag == "info")
+            {
+                print("Colidiu");
+             
+
+            }
+
+
+            if (rayInfo.transform.gameObject.tag == "plantarArvore")
+            {
+
+                plantarArvore = rayInfo.transform.gameObject;
+                infoPlantarArvore.SetActive(true);
+
+                if (Input.GetKeyDown(KeyCode.E))
+                {
+
+                    plantarArvore.GetComponent<Animator>().SetTrigger("tronco");
+                    quantArvoresPlantar -= 1;
+                    textQuantArvoresPlantar.text = quantArvoresPlantar.ToString();
+                    plantarArvore.gameObject.tag = tag;
+                    Instantiate(particulasPlantarArvore, plantarArvore.transform.position, particulasPlantarArvore.transform.rotation);
+
+                }
+
+            }
+
+
+
+            if (rayInfo.transform.gameObject.tag == "infoGaiola")
+            {
+
+                plantarArvore = rayInfo.transform.gameObject;
+
+                infoPlantarArvore.SetActive(true);
+
+                if (Input.GetKeyDown(KeyCode.E))
+                {
+
+                    plantarArvore.GetComponent<Animator>().SetTrigger("tronco");
+                    quantArvoresPlantar -= 1;
+                    textQuantArvoresPlantar.text = quantArvoresPlantar.ToString();
+                    plantarArvore.gameObject.tag = tag;
+                    Instantiate(particulasPlantarArvore, plantarArvore.transform.position, particulasPlantarArvore.transform.rotation);
+
+                }
+
+            }
+
+
+            else
+            {
+
+                plantarArvore = null;
+            }
+        }
+        else
+        {
+
+            plantarArvore = null;
+            infoPlantarArvore.SetActive(false);
+           
+
+
+        }
+    }
+
     private void FixedUpdate() {
 
         sensor = Physics.CheckSphere(gruondCheck.position, 1f, layerInteracao);
@@ -105,48 +261,14 @@ public class movimentoPlayer : MonoBehaviour {
 
 
     }
+    private void OnTriggerEnter(Collider other)
+    {
 
-    void MovimentoPersonagem() {
+        if (other.gameObject.tag == "dormir")
+        {
 
-        if (sensor && velocidade.y < 0) {
-            velocidade.y = -0.01f;
-        }
-
-
-        if (direcao.magnitude > 0.1f) {
-
-            float anguloDestino = Mathf.Atan2(direcao.x, direcao.z) * Mathf.Rad2Deg + cam.eulerAngles.y;
-
-            float angulo = Mathf.SmoothDampAngle(transform.eulerAngles.y, anguloDestino, ref suavizancaoVelocidade, suavizacaoMovimento);
-
-            transform.rotation = Quaternion.Euler(0f, angulo, 0f);
-
-            direcaoMovimento = Quaternion.Euler(0f, anguloDestino, 0f) * Vector3.forward;
-
-            walk = true;
-
-        }
-        else {
-
-            walk = false;
-
-        }
-
-        controller.Move(direcaoMovimento.normalized * velocidadeMovimento * direcao.magnitude * Time.deltaTime);
-
-        anim.SetBool("walk", walk);
-
-        velocidade.y += gravidade * Time.deltaTime;
-
-        controller.Move(velocidade * Time.deltaTime);
-
-    }
-
-    private void OnTriggerEnter(Collider other) {
-
-        if (other.gameObject.tag == "dormir") {
-
-            if (Input.GetKey(KeyCode.Z)) {
+            if (Input.GetKey(KeyCode.Z))
+            {
 
                 anim.SetBool("dormir", true);
 
@@ -154,7 +276,8 @@ public class movimentoPlayer : MonoBehaviour {
 
         }
 
-        if (other.gameObject.tag == "vida") {
+        if (other.gameObject.tag == "vida")
+        {
 
             vidaAtual -= 1;
             porcentVida = vidaAtual / vidaInicial;
@@ -162,7 +285,8 @@ public class movimentoPlayer : MonoBehaviour {
 
         }
 
-        if (other.gameObject.tag == "ganharVida") {
+        if (other.gameObject.tag == "ganharVida")
+        {
 
             vidaAtual = vidaInicial;
             porcentVida = vidaAtual / vidaInicial;
@@ -171,59 +295,15 @@ public class movimentoPlayer : MonoBehaviour {
 
         }
 
-      }
-
-    void relogioFase() {
-
-        if (relogio > 0) {
-
-            relogio -= Time.deltaTime;
-
-            textoRelogio.text = relogio.ToString("0");
-
-        }
 
     }
 
-    void RayCastPlayer() {
 
-        raio.origin = posicaoRay.position;
-        raio.direction = posicaoRay.forward;
-        Debug.DrawRay(raio.origin, raio.direction * alcandeRaio, Color.red);
-
-        if (Physics.Raycast(raio.origin, raio.direction, out rayInfo, alcandeRaio, layerInter)) {
-
-            distanciaRaio = rayInfo.distance;
-
-            if (rayInfo.transform.gameObject.tag == "plantarArvore") {
-
-                plantarArvore = rayInfo.transform.gameObject;
-                infoPlantarArvore.SetActive(true);
-               
-                if (Input.GetKeyDown(KeyCode.E)) {
-
-                    plantarArvore.GetComponent<Animator>().SetTrigger("tronco");
-                    quantArvoresPlantar -= 1;
-                    textQuantArvoresPlantar.text = quantArvoresPlantar.ToString();
-                    plantarArvore.gameObject.tag = tag;
-                    Instantiate(particulasPlantarArvore, plantarArvore.transform.position, particulasPlantarArvore.transform.rotation);
-
-                }
-
-            }
-            else {
-
-                plantarArvore = null;
-            }
-        }
-        else {
-
-            plantarArvore = null;
-            infoPlantarArvore.SetActive(false);
-
-        }
+/*
+   IEnumerator paineil()
+    {
+        painelInformacao[0].SetActive(true);
+        yield retur
     }
-
-   
-
+*/
 }

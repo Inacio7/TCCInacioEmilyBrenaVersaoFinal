@@ -12,6 +12,9 @@ TagManager:
   - Plantado
   - inicioFase
   - camera
+  - info01
+  - infoGaiola
+  - info
   layers:
   - Default
   - TransparentFX
@@ -21,8 +24,8 @@ TagManager:
   - UI
   - layerChao
   - player
-  - 
-  - 
+  - info01
+  - infoGaiola
   - 
   - 
   - 

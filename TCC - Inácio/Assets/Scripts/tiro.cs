@@ -5,7 +5,6 @@ using UnityEngine;
 public class tiro : MonoBehaviour
 {
     public float speed;
-    public GameObject player;
 
     void Start()
     {

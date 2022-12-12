@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class fimAnimacaoFase : MonoBehaviour
 {
-
+    public GameObject player;
 
     private animacaoFases cameraFase;
     // Start is called before the first frame update
